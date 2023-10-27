@@ -1,4 +1,4 @@
-# Security Setup Script
+# SOC setup script
 
 This script is designed to automate the installation of a Security Information and Event Management (SIEM) system along with  Network-based Intrusion Detection System (NIDS) and Host-based Intrusion Detection System (HIDS). The script includes the following components:
 
