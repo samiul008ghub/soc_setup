@@ -1,11 +1,20 @@
-# SOC setup script
+# Automated SOC Components Setup Script
 
-This script is designed to automate the installation of a Security Information and Event Management (SIEM) system along with  Network-based Intrusion Detection System (NIDS) and Host-based Intrusion Detection System (HIDS). The script includes the following components:
+## Overview
 
-1. SIEM (Elasticsearch, Kibana and Filebeat Version: 7.17.13)
-2. HIDS (Wazuh Manager Version: 4.5)
-3. NIDS (Suricata)
+This script automates the setup of a comprehensive security monitoring environment, including a Security Information and Event Management (SIEM) system, Host-based Intrusion Detection System (HIDS), and Network-based Intrusion Detection System (NIDS) on a single machine. It streamlines the installation process, making it accessible to users with different levels of technical expertise.
 
+**Note:** This script is intended to install all the components on a single machine, meaning the same box will have the SIEM, NIDS, and HIDS core components.
+
+## Components
+
+The script facilitates the installation of the following security components:
+
+1. **SIEM (Security Information and Event Management):** This component combines Elasticsearch, Kibana, and Filebeat to provide a powerful platform for monitoring and analyzing security events in your environment.
+
+2. **HIDS (Host-based Intrusion Detection System):** The script installs the Wazuh Manager, an open-source HIDS. It aids in monitoring, detecting, and responding to security threats on individual hosts.
+
+3. **NIDS (Network-based Intrusion Detection System):** Suricata, a high-performance NIDS, is configured to help protect your network from intrusions and suspicious activities. **Note:** Suricata will monitor the local interface of the machine where it is installed. To monitor the entire network traffic, it should receive traffic from a TAP device or a SPAN port.
 ## System Requirements
 
 Before running the script, please ensure that your system meets the minimum requirements:
