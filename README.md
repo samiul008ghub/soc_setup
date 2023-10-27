@@ -2,7 +2,7 @@
 
 ## Overview
 
-This script automates the setup of a comprehensive security monitoring environment, including a Security Information and Event Management (SIEM) system, Host-based Intrusion Detection System (HIDS), and Network-based Intrusion Detection System (NIDS) on a single machine. It streamlines the installation process, making it accessible to users with different levels of technical expertise.
+This script automates the setup of a comprehensive security monitoring environment, including a Security Information and Event Management (SIEM) system,Network-based Intrusion Detection System (NIDS) and Host-based Intrusion Detection System (HIDS) on a single machine. It streamlines the installation process, making it accessible to users with different levels of technical expertise.
 
 **Note:** This script is intended to install all the components on a single machine, meaning the same box will have the SIEM, NIDS, and HIDS core components.
 
