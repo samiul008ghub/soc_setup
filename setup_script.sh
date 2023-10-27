@@ -2,13 +2,15 @@
 
 # Color codes for formatting
 GREEN='\033[0;32m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Function to install SIEM
 install_siem() {
     echo -e "${GREEN}Starting SIEM setup...${NC}"
     chmod +x siem_setup_script.sh
-    ./siem_setup_script.sh
+    ./siem_setup.sh
+    read -p "SIEM setup completed. Press Enter to continue..."
 }
 
 # Function to install Suricata (NIDS)
@@ -16,6 +18,7 @@ install_suricata() {
     echo -e "${GREEN}Starting Suricata setup...${NC}"
     chmod +x suricata_setup.sh
     ./suricata_setup.sh
+    read -p "Suricata setup completed. Press Enter to continue..."
 }
 
 # Function to install Wazuh (HIDS)
@@ -23,6 +26,25 @@ install_wazuh() {
     echo -e "${GREEN}Starting Wazuh setup...${NC}"
     chmod +x wazuh_setup.sh
     ./wazuh_setup.sh
+    read -p "Wazuh setup completed. Press Enter to continue..."
+}
+
+# Function to check system requirements
+check_system_requirements() {
+    available_ram=$(free -g | awk '/^Mem:/{print $2}')
+    available_disk_space=$(df -BG / | awk 'NR==2{print $4}' | tr -d 'G')
+
+    echo "Available RAM: ${available_ram} GB"
+    echo "Available Disk Space: ${available_disk_space} GB"
+
+    if [ "$available_ram" -lt 4 ] || [ "$available_disk_space" -lt 20 ]; then
+        echo -e "${RED}WARNING: Your system does not meet the minimum requirements.${NC}"
+        read -p "Do you want to continue with the installation? (y/n): " continue_choice
+        if [ "$continue_choice" != "y" ]; then
+            echo "Setup aborted."
+            exit 1
+        fi
+    fi
 }
 
 # Welcome message and description
@@ -42,20 +64,21 @@ if [ "$choice" != "y" ]; then
     exit 1
 fi
 
+# Check system requirements
+check_system_requirements
+
 # Ask the user which components to install
 read -p "Do you want to install the SIEM (Elasticsearch, Kibana, Filebeat)? (y/n): " install_siem_choice
-read -p "Do you want to install Suricata (NIDS)? (y/n): " install_suricata_choice
-read -p "Do you want to install Wazuh (HIDS)? (y/n): " install_wazuh_choice
-
-# Execute the selected components
 if [ "$install_siem_choice" == "y" ]; then
     install_siem
 fi
 
+read -p "Do you want to install Suricata (NIDS)? (y/n): " install_suricata_choice
 if [ "$install_suricata_choice" == "y" ]; then
     install_suricata
 fi
 
+read -p "Do you want to install Wazuh (HIDS)? (y/n): " install_wazuh_choice
 if [ "$install_wazuh_choice" == "y" ]; then
     install_wazuh
 fi
