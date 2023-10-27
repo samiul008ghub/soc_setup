@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 # Function to install SIEM
 install_siem() {
     echo -e "${GREEN}Starting SIEM setup...${NC}"
-    chmod +x siem_setup_script.sh
+    chmod +x siem_setup.sh
     ./siem_setup.sh
     read -p "SIEM setup completed. Press Enter to continue..."
 }
