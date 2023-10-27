@@ -17,8 +17,9 @@ The script facilitates the installation of the following security components:
 3. **NIDS (Network-based Intrusion Detection System):** Suricata, a high-performance NIDS, is configured to help protect your network from intrusions and suspicious activities. **Note:** Suricata will monitor the local interface of the machine where it is installed. To monitor the entire network traffic, it should receive traffic from a TAP device or a SPAN port.
 ## System Requirements
 
-Before running the script, please ensure that your system meets the minimum requirements:
+Before running the script, please ensure that your system meets the following requirements:
 
+- Ubuntu OS
 - Minimum 4GB of RAM
 - Minimum 20GB of free disk space
 
