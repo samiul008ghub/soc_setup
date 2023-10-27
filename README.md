@@ -33,7 +33,7 @@ If your system doesn't meet these requirements, the script will issue a warning 
 
 2. Navigate to the repository's directory:
    ```bash
-   cd soc_tools_scripts
+   cd soc_setup
 3. Make the setup_script.sh executable:
    ```bash
    chmod +x setup_script.sh
