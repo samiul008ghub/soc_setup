@@ -1,74 +1,74 @@
 #!/bin/bash
 
-# Function to check if figlet is installed and install it if not
-check_and_install_figlet() {
-  if ! command -v figlet &> /dev/null; then
-    echo "figlet is not installed. Installing figlet..."
-    sudo apt-get install figlet -y
+# Function to check if lolcat is installed and install it if not
+check_and_install_lolcat() {
+  if ! command -v lolcat &> /dev/null; then
+    echo "lolcat is not installed. Installing lolcat..."
+    sudo apt-get install lolcat -y
   fi
 }
 
-# Function to display a welcome message with figlet
+# Function to display a welcome message with figlet and lolcat
 welcome_message() {
-  check_and_install_figlet
-  figlet "SIEM & HIDS Setup"
+  check_and_install_lolcat
+  figlet "SIEM & HIDS Setup" | lolcat
   echo "This script will help you set up a security monitoring environment."
   echo "It includes the following components:"
   echo "1. SIEM (Elasticsearch, Kibana, Filebeat)"
   echo "2. NIDS (Suricata)"
   echo "3. HIDS (Wazuh Manager)"
-  echo "The SIEM will be installed with Elasticsearch version 7.17.13 and Wazuh version 4.5, as they were compatible during the script creation."
+  echo "The SIEM will be installed with Elasticsearch version 7.17.13 and Wazuh version 4.5, as they were compatible during the script creation." | lolcat
 }
 
-# Function to install SIEM and display a message with figlet
+# Function to install SIEM and display a message with figlet and lolcat
 install_siem() {
-  check_and_install_figlet
-  figlet "Starting SIEM Setup"
+  check_and_install_lolcat
+  figlet "Starting SIEM Setup" | lolcat
   chmod +x siem_setup.sh
   ./siem_setup.sh
-  figlet "SIEM Setup Completed"
+  figlet "SIEM Setup Completed" | lolcat
   read -p "Press Enter to continue..."
 }
 
-# Function to install Suricata (NIDS) and display a message with figlet
+# Function to install Suricata (NIDS) and display a message with figlet and lolcat
 install_suricata() {
-  check_and_install_figlet
-  figlet "Starting Suricata Setup"
+  check_and_install_lolcat
+  figlet "Starting Suricata Setup" | lolcat
   chmod +x suricata_setup.sh
   ./suricata_setup.sh
-  figlet "Suricata Setup Completed"
+  figlet "Suricata Setup Completed" | lolcat
   read -p "Press Enter to continue..."
 }
 
-# Function to install Wazuh (HIDS) and display a message with figlet
+# Function to install Wazuh (HIDS) and display a message with figlet and lolcat
 install_wazuh() {
-  check_and_install_figlet
-  figlet "Starting Wazuh Setup"
+  check_and_install_lolcat
+  figlet "Starting Wazuh Setup" | lolcat
   chmod +x wazuh_setup.sh
   ./wazuh_setup.sh
-  figlet "Wazuh Setup Completed"
+  figlet "Wazuh Setup Completed" | lolcat
   read -p "Press Enter to continue..."
 }
 
 # Function to check system requirements
 check_system_requirements() {
-  check_and_install_figlet
+  check_and_install_lolcat
   total_ram=$(free -m | awk '/^Mem:/{print $2}')
   available_disk_space=$(df -BG / | awk 'NR==2{print $4}' | tr -d 'G')
 
-  figlet "Checking Requirements"
+  figlet "Checking Requirements" | lolcat
   echo "Total RAM: ${total_ram} MB"
-  echo "Available Disk Space: ${available_disk_space} GB"
+  echo "Available Disk Space: ${available_disk_space} GB" | lolcat
 
   if [ "$total_ram" -lt 4096 ] || [ "$available_disk_space" -lt 20 ]; then
-    figlet "Warning: Not Enough Resources"
+    figlet "Warning: Not Enough Resources" | lolcat
     read -p "Do you want to continue with the installation? (y/n): " continue_choice
     if [ "$continue_choice" != "y" ]; then
-      figlet "Setup Aborted"
+      figlet "Setup Aborted" | lolcat
       exit 1
     fi
   else
-    figlet "Requirements Met"
+    figlet "Requirements Met" | lolcat
     echo "System requirements met. Continuing with the installation."
   fi
 }
@@ -85,7 +85,7 @@ echo -e "${GREEN}Welcome to the SIEM, HIDS, and NIDS Setup Script${NC}"
 read -p "Do you want to proceed with the setup? (y/n): " choice
 
 if [ "$choice" != "y" ]; then
-  figlet "Setup Aborted"
+  figlet "Setup Aborted" | lolcat
   exit 1
 fi
 
@@ -108,4 +108,4 @@ if [ "$install_wazuh_choice" == "y" ]; then
   install_wazuh
 fi
 
-figlet "Setup Completed"
+figlet "Setup Completed" | lolcat
