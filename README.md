@@ -16,17 +16,26 @@ The script facilitates the installation of the following SOC components:
 1. **SIEM (Security Information and Event Management):** This component combines Elasticsearch, Kibana, and Filebeat to provide a powerful platform for monitoring and analyzing security events in your environment. The SIEM setup includes Elasticsearch, Kibana and Filebeat version 7.17.13 as it is the compatible version to integrate with Wazuh manager version 4.5
    <img width="443" alt="siem_setup_1" src="https://github.com/samiul008ghub/soc_setup/assets/54459574/94403da5-27bf-4afd-b95a-26eb548b5734">
 
+   
+
+   <img width="918" alt="elasticsearch" src="https://github.com/samiul008ghub/soc_setup/assets/54459574/31be9f30-ebed-49ae-8eed-807c70945eb0">
+
+
 3. **NIDS (Network-based Intrusion Detection System):** Suricata, a high-performance NIDS, is configured to help protect your network from intrusions and suspicious activities.
 **Note:** Suricata will monitor the local interface of the machine where it is installed. To monitor the entire network traffic, it should receive traffic from a TAP device or a SPAN port.
 
 <img width="439" alt="Suricata_setup" src="https://github.com/samiul008ghub/soc_setup/assets/54459574/4e1f2e75-3ccc-4976-b976-178a068c92c5">
 
+<img width="957" alt="suricata_dashboard" src="https://github.com/samiul008ghub/soc_setup/assets/54459574/7e5388da-a104-4807-a008-67bd0d289ee7">
 
 5. **HIDS (Host-based Intrusion Detection System):** The script installs the Wazuh Manager, an open-source HIDS. It aids in monitoring, detecting, and responding to security threats on individual hosts. The setup includes the installation of Wazuh Manager version 4.5
 
    
 <img width="399" alt="wazuh_setup" src="https://github.com/samiul008ghub/soc_setup/assets/54459574/37c42fe1-665b-41c5-9d1b-7209472e9c08">
 
+
+
+<img width="929" alt="wazuh" src="https://github.com/samiul008ghub/soc_setup/assets/54459574/5e6535fc-e082-43d4-861b-cc70cee0302e">
 
 ## System Requirements
 
