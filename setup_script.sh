@@ -1,7 +1,16 @@
 #!/bin/bash
 
+# Function to check if cowsay is installed and install it if not
+check_and_install_cowsay() {
+  if ! command -v cowsay &> /dev/null; then
+    echo "cowsay is not installed. Installing cowsay..."
+    sudo apt-get install cowsay -y
+  fi
+}
+
 # Function to display a welcome message with a cow
 welcome_message() {
+  check_and_install_cowsay
   cowsay -f ghostbusters "Welcome to the SIEM, HIDS, and NIDS Setup Script"
   echo "This script will help you set up a security monitoring environment."
   echo "It includes the following components:"
@@ -13,6 +22,7 @@ welcome_message() {
 
 # Function to install SIEM and display a message with a cow
 install_siem() {
+  check_and_install_cowsay
   cowsay -f ghost "Starting SIEM setup..."
   chmod +x siem_setup.sh
   ./siem_setup.sh
@@ -22,6 +32,7 @@ install_siem() {
 
 # Function to install Suricata (NIDS) and display a message with a cow
 install_suricata() {
+  check_and_install_cowsay
   cowsay -f ghost "Starting Suricata setup..."
   chmod +x suricata_setup.sh
   ./suricata_setup.sh
@@ -31,6 +42,7 @@ install_suricata() {
 
 # Function to install Wazuh (HIDS) and display a message with a cow
 install_wazuh() {
+  check_and_install_cowsay
   cowsay -f ghost "Starting Wazuh setup..."
   chmod +x wazuh_setup.sh
   ./wazuh_setup.sh
@@ -40,6 +52,7 @@ install_wazuh() {
 
 # Function to check system requirements
 check_system_requirements() {
+  check_and_install_cowsay
   total_ram=$(free -m | awk '/^Mem:/{print $2}')
   available_disk_space=$(df -BG / | awk 'NR==2{print $4}' | tr -d 'G')
 
