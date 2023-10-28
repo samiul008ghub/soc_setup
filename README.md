@@ -59,8 +59,6 @@ Data Backup: Before proceeding, it's advisable to backup your data, especially i
 ## Security Best Practices
 After setting up the security components, consider following best practices for system hardening, firewall configurations, and securing sensitive data.
 
-## Note on Network Monitoring
-Suricata, the NIDS component, will monitor the local interface of the machine where it is installed. To monitor the entire network traffic, it should receive traffic from a TAP device or a SPAN port.
 
 
 
