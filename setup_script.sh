@@ -52,8 +52,8 @@ echo -e "${GREEN}Welcome to the SIEM, HIDS, and NIDS Setup Script${NC}"
 echo "This script will help you set up a security monitoring environment."
 echo "It includes the following components:"
 echo "1. SIEM (Elasticsearch, Kibana, Filebeat)"
-echo "2. HIDS (Wazuh Manager)"
-echo "3. NIDS (Suricata)"
+echo "2. NIDS (Suricata)"
+echo "3. HIDS (Wazuh Manager)"
 echo "The SIEM will be installed with Elasticsearch version 7.17.13 and Wazuh version 4.5, as they were compatible during the script creation."
 
 # Ask for user confirmation to continue
