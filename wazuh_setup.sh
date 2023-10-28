@@ -1,16 +1,21 @@
 #!/bin/bash
 
+# Color codes for formatting
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 # Function to display welcome message
 welcome_message() {
-  echo "#############################################"
-  echo "##   Welcome to the setup of Wazuh HIDS.   ##"
-  echo "#############################################"
+  echo -e "${GREEN}#############################################${NC}"
+  echo -e "${GREEN}##   Welcome to the setup of Wazuh HIDS.   ##${NC}"
+  echo -e "${GREEN}#############################################${NC}"
 }
 
 # Function to check for interrupted dpkg process
 check_interrupted_dpkg() {
   if [ -f /var/lib/dpkg/lock ]; then
-    echo "Error: dpkg process is interrupted. Running 'dpkg --configure -a' to correct the problem."
+    echo -e "${RED}Error: dpkg process is interrupted. Running 'dpkg --configure -a' to correct the problem.${NC}"
     dpkg --configure -a
   fi
 }
@@ -26,9 +31,9 @@ check_existing_wazuh() {
 
 # Function to remove existing Wazuh installations
 remove_existing_wazuh() {
-  echo "#############################################"
-  echo "##  Removing existing Wazuh installations  ##"
-  echo "#############################################"
+  echo -e "${GREEN}#############################################${NC}"
+  echo -e "${GREEN}##  Removing existing Wazuh installations  ##${NC}"
+  echo -e "${GREEN}#############################################${NC}"
   systemctl stop wazuh-manager
   apt-get purge wazuh-manager -y
   rm -rf /etc/wazuh /var/ossec
@@ -38,9 +43,9 @@ remove_existing_wazuh() {
 
 # Function to integrate Wazuh HIDS with Filebeat
 integrate_wazuh() {
-  echo "#############################################"
-  echo "##   Integrating Wazuh HIDS with Filebeat  ##"
-  echo "#############################################"
+  echo -e "${GREEN}#############################################${NC}"
+  echo -e "${GREEN}##   Integrating Wazuh HIDS with Filebeat  ##${NC}"
+  echo -e "${GREEN}#############################################${NC}"
 
   # Check for interrupted dpkg process
   check_interrupted_dpkg
@@ -69,11 +74,11 @@ integrate_wazuh() {
   echo "Checking the status of Wazuh manager..."
   
   # Check if the Wazuh manager is active without displaying the status
-if systemctl is-active --quiet wazuh-manager; then
-  echo "Wazuh manager is active and running."
-else
-  echo "Wazuh manager is not running."
-fi
+  if systemctl is-active --quiet wazuh-manager; then
+    echo "Wazuh manager is active and running."
+  else
+    echo "Wazuh manager is not running."
+  fi
 
   # Configure Filebeat for Wazuh
   cat <<EOF >> /etc/filebeat/filebeat.yml
@@ -166,6 +171,5 @@ filebeat setup -e
 if [ $? -eq 0 ]; then
   echo "Filebeat setup completed successfully."
 else
-  echo "Error: Filebeat setup failed."
+  echo -e "${RED}Error: Filebeat setup failed.${NC}"
 fi
-
