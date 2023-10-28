@@ -118,7 +118,7 @@ EOF
 
 # Function to configure Elasticsearch
 configure_elasticsearch() {
-  local_ip=$(hostname -I | cut-d' ' -f1)
+  local_ip=$(hostname -I | cut -d ' ' -f1)
   elasticsearch_config="/etc/elasticsearch/elasticsearch.yml"
 
   log "${YELLOW}Configuring Elasticsearch...${NC}"
