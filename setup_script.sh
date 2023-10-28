@@ -31,13 +31,13 @@ install_wazuh() {
 
 # Function to check system requirements
 check_system_requirements() {
-    available_ram=$(free -g | awk '/^Mem:/{print $2}')
-    available_disk_space=$(df -BG / | awk 'NR==2{print $4}' | tr -d 'G')
+    total_ram=$(free -g | awk '/^Mem:/{print $2}')
+    total_disk_space=$(df -BG / | awk 'NR==2{print $2}' | tr -d 'G')
 
-    echo "Available RAM: ${available_ram} GB"
-    echo "Available Disk Space: ${available_disk_space} GB"
+    echo "Total RAM: ${total_ram} GB"
+    echo "Total Disk Space: ${total_disk_space} GB"
 
-    if [ "$available_ram" -lt 4 ] || [ "$available_disk_space" -lt 20 ]; then
+    if [ "$total_ram" -lt 4 ] || [ "$total_disk_space" -lt 20 ]; then
         echo -e "${RED}WARNING: Your system does not meet the minimum requirements.${NC}"
         read -p "Do you want to continue with the installation? (y/n): " continue_choice
         if [ "$continue_choice" != "y" ]; then
