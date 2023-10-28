@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Function to check if cowsay is installed and install it if not
-check_and_install_cowsay() {
-  if ! command -v cowsay &> /dev/null; then
-    echo "cowsay is not installed. Installing cowsay..."
-    sudo apt-get install cowsay -y
+# Function to check if figlet is installed and install it if not
+check_and_install_figlet() {
+  if ! command -v figlet &> /dev/null; then
+    echo "figlet is not installed. Installing figlet..."
+    sudo apt-get install figlet -y
   fi
 }
 
-# Function to display a welcome message with a cow
+# Function to display a welcome message with figlet
 welcome_message() {
-  check_and_install_cowsay
-  cowsay -f ghostbusters "Welcome to the SIEM, HIDS, and NIDS Setup Script"
+  check_and_install_figlet
+  figlet "SIEM & HIDS Setup"
   echo "This script will help you set up a security monitoring environment."
   echo "It includes the following components:"
   echo "1. SIEM (Elasticsearch, Kibana, Filebeat)"
@@ -20,55 +20,56 @@ welcome_message() {
   echo "The SIEM will be installed with Elasticsearch version 7.17.13 and Wazuh version 4.5, as they were compatible during the script creation."
 }
 
-# Function to install SIEM and display a message with a cow
+# Function to install SIEM and display a message with figlet
 install_siem() {
-  check_and_install_cowsay
-  cowsay -f ghost "Starting SIEM setup..."
+  check_and_install_figlet
+  figlet "Starting SIEM Setup"
   chmod +x siem_setup.sh
   ./siem_setup.sh
-  cowsay -f tux "SIEM setup completed. Press Enter to continue..."
-  read -p ""
+  figlet "SIEM Setup Completed"
+  read -p "Press Enter to continue..."
 }
 
-# Function to install Suricata (NIDS) and display a message with a cow
+# Function to install Suricata (NIDS) and display a message with figlet
 install_suricata() {
-  check_and_install_cowsay
-  cowsay -f ghost "Starting Suricata setup..."
+  check_and_install_figlet
+  figlet "Starting Suricata Setup"
   chmod +x suricata_setup.sh
   ./suricata_setup.sh
-  cowsay -f tux "Suricata setup completed. Press Enter to continue..."
-  read -p ""
+  figlet "Suricata Setup Completed"
+  read -p "Press Enter to continue..."
 }
 
-# Function to install Wazuh (HIDS) and display a message with a cow
+# Function to install Wazuh (HIDS) and display a message with figlet
 install_wazuh() {
-  check_and_install_cowsay
-  cowsay -f ghost "Starting Wazuh setup..."
+  check_and_install_figlet
+  figlet "Starting Wazuh Setup"
   chmod +x wazuh_setup.sh
   ./wazuh_setup.sh
-  cowsay -f tux "Wazuh setup completed. Press Enter to continue..."
-  read -p ""
+  figlet "Wazuh Setup Completed"
+  read -p "Press Enter to continue..."
 }
 
 # Function to check system requirements
 check_system_requirements() {
-  check_and_install_cowsay
+  check_and_install_figlet
   total_ram=$(free -m | awk '/^Mem:/{print $2}')
   available_disk_space=$(df -BG / | awk 'NR==2{print $4}' | tr -d 'G')
 
-  cowsay -f ghost "Checking system requirements..."
+  figlet "Checking Requirements"
   echo "Total RAM: ${total_ram} MB"
   echo "Available Disk Space: ${available_disk_space} GB"
 
   if [ "$total_ram" -lt 4096 ] || [ "$available_disk_space" -lt 20 ]; then
-    cowsay -f ghostbusters "WARNING: Your system does not meet the minimum requirements."
+    figlet "Warning: Not Enough Resources"
     read -p "Do you want to continue with the installation? (y/n): " continue_choice
     if [ "$continue_choice" != "y" ]; then
-      cowsay -f elephant "Setup aborted."
+      figlet "Setup Aborted"
       exit 1
     fi
   else
-    cowsay -f tux "System requirements met. Continuing with the installation."
+    figlet "Requirements Met"
+    echo "System requirements met. Continuing with the installation."
   fi
 }
 
@@ -84,7 +85,7 @@ echo -e "${GREEN}Welcome to the SIEM, HIDS, and NIDS Setup Script${NC}"
 read -p "Do you want to proceed with the setup? (y/n): " choice
 
 if [ "$choice" != "y" ]; then
-  cowsay -f elephant "Setup aborted."
+  figlet "Setup Aborted"
   exit 1
 fi
 
@@ -107,4 +108,4 @@ if [ "$install_wazuh_choice" == "y" ]; then
   install_wazuh
 fi
 
-cowsay -f tux "Setup completed successfully."
+figlet "Setup Completed"
