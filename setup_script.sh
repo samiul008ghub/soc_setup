@@ -108,4 +108,4 @@ if [ "$install_wazuh_choice" == "y" ]; then
   install_wazuh
 fi
 
-figlet "Setup Completed" | lolcat
+figlet "All done!" | lolcat
