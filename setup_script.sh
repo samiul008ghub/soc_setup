@@ -56,12 +56,12 @@ check_system_requirements() {
   total_ram=$(free -m | awk '/^Mem:/{print $2}')
   available_disk_space=$(df -BG / | awk 'NR==2{print $4}' | tr -d 'G')
 
-  figlet "Checking Requirements" | lolcat
-  echo "Total RAM: ${total_ram} MB"
+  echo "Checking Requirements" | lolcat
+  echo "Total RAM: ${total_ram} MB" | lolcat
   echo "Available Disk Space: ${available_disk_space} GB" | lolcat
 
   if [ "$total_ram" -lt 4096 ] || [ "$available_disk_space" -lt 20 ]; then
-    figlet "Warning: Not Enough Resources" | lolcat
+    echo "Warning: Not Enough Resources." | lolcat
     read -p "Do you want to continue with the installation? (y/n): " continue_choice
     if [ "$continue_choice" != "y" ]; then
       figlet "Setup Aborted" | lolcat
