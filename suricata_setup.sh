@@ -57,7 +57,6 @@ echo "Configuration file updated with the active interface: $interface"
 # Update the /etc/default/suricata file with the correct IFACE
 echo -e "${GREEN}Updating /etc/default/suricata with IFACE=$interface...${NC}"
 sed -i "s/^IFACE=.*/IFACE=$interface/" /etc/default/suricata
-sed -i "s/\$interface/$interface/g" suricata_temp.yaml
 
 # Step 4: Update Suricata configuration files
 echo -e "${GREEN}Updating Suricata configuration files...${NC}"
@@ -69,6 +68,8 @@ systemctl start suricata
 sleep 10
 
 # Step 6: Update suricata config file
+sed -i "s/interface: enp0s3/interface: $(ip route show default | grep -oP 'dev \K\S+' | awk '{print $1}')/g" suricata_temp.yaml
+
 cp suricata_temp.yaml /etc/suricata/suricata.yaml
 
 systemctl restart suricata
