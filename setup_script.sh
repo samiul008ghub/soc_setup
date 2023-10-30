@@ -12,11 +12,12 @@ check_and_install_lolcat() {
 check_and_install_figlet() {
   if ! command -v figlet &> /dev/null; then
     echo "figlet is not installed. Installing figlet..."
-    
+
     if command -v sudo &> /dev/null; then
       # Check the package manager and install figlet
       if command -v apt-get &> /dev/null; then
-        sudo apt-get install figlet -y
+        sudo apt-get update
+        sudo apt-get install -y figlet
       elif command -v yum &> /dev/null; then
         sudo yum install figlet -y
       # Add more package manager checks for other distributions if needed
@@ -28,6 +29,7 @@ check_and_install_figlet() {
     fi
   fi
 }
+
 # Function to display a welcome message with figlet and lolcat
 welcome_message() {
   check_and_install_lolcat
