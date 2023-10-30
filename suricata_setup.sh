@@ -57,7 +57,7 @@ echo "Configuration file updated with the active interface: $interface"
 # Update the /etc/default/suricata file with the correct IFACE
 echo -e "${GREEN}Updating /etc/default/suricata with IFACE=$interface...${NC}"
 sed -i "s/^IFACE=.*/IFACE=$interface/" /etc/default/suricata
-sed -i "s/\$interface/$interface/g" /home/analyst/Desktop/suricata_temp.yaml
+sed -i "s/\$interface/$interface/g" suricata_temp.yaml
 
 # Step 4: Update Suricata configuration files
 echo -e "${GREEN}Updating Suricata configuration files...${NC}"
