@@ -1,6 +1,9 @@
 #!/bin/bash
 
-#!/bin/bash
+# Function to set the PATH environment variable to include /usr/bin
+set_path() {
+  export PATH=$PATH:/usr/bin
+}
 
 # Function to check if lolcat is installed and install it if not
 check_and_install_lolcat() {
@@ -14,23 +17,19 @@ check_and_install_lolcat() {
   fi
 }
 
-# Function to check if figlet is installed and install it if not
-check_and_install_figlet() {
+# Function to check if figlet is installed and inform the user to install it manually
+check_and_inform_figlet() {
   if ! command -v figlet &> /dev/null; then
-    echo "figlet is not installed. Installing figlet..."
-    if command -v sudo &> /dev/null; then
-      sudo apt-get update -y
-      sudo apt-get install -y figlet
-    else
-      echo "sudo is not available. Please install figlet manually."
-    fi
+    echo "figlet is not installed. For better visual output, you can install figlet manually."
+    echo "To install figlet, you can run: sudo apt-get install figlet"
   fi
 }
 
 # Function to display a welcome message with figlet and lolcat
 welcome_message() {
+  set_path
   check_and_install_lolcat
-  check_and_install_figlet
+  check_and_inform_figlet
   figlet "SIEM & HIDS Setup" | lolcat
   echo "This script will help you set up a security monitoring environment."
   echo "It includes the following components:"
@@ -39,8 +38,6 @@ welcome_message() {
   echo "3. HIDS (Wazuh Manager)"
   echo "The SIEM will be installed with Elasticsearch version 7.17.13 and Wazuh version 4.5, as they were compatible during the script creation." | lolcat
 }
-
-
 
 # Function to install SIEM and display a message with figlet and lolcat
 install_siem() {
