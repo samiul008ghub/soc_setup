@@ -4,7 +4,19 @@
 check_and_install_lolcat() {
   if ! command -v lolcat &> /dev/null; then
     echo "lolcat is not installed. Installing lolcat..."
-    sudo apt-get install lolcat -y
+    if command -v sudo &> /dev/null; then
+      # Check the package manager and install lolcat
+      if command -v apt-get &> /dev/null; then
+        sudo apt-get update -y
+        sudo apt-get install -y lolcat
+      elif command -v yum &> /dev/null; then
+        sudo yum install -y lolcat
+      else
+        echo "Unsupported package manager. Please install lolcat manually."
+      fi
+    else
+      echo "sudo is not available. Please install lolcat manually."
+    fi
   fi
 }
 
@@ -12,14 +24,13 @@ check_and_install_lolcat() {
 check_and_install_figlet() {
   if ! command -v figlet &> /dev/null; then
     echo "figlet is not installed. Installing figlet..."
-
     if command -v sudo &> /dev/null; then
       # Check the package manager and install figlet
       if command -v apt-get &> /dev/null; then
-        sudo apt-get update
+        sudo apt-get update -y
         sudo apt-get install -y figlet
       elif command -v yum &> /dev/null; then
-        sudo yum install figlet -y
+        sudo yum install -y figlet
       # Add more package manager checks for other distributions if needed
       else
         echo "Unsupported package manager. Please install figlet manually."
@@ -42,7 +53,6 @@ welcome_message() {
   echo "3. HIDS (Wazuh Manager)"
   echo "The SIEM will be installed with Elasticsearch version 7.17.13 and Wazuh version 4.5, as they were compatible during the script creation." | lolcat
 }
-
 
 # Function to install SIEM and display a message with figlet and lolcat
 install_siem() {
