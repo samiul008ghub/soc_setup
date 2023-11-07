@@ -5,6 +5,29 @@ set_path() {
   export PATH=$PATH:/usr/bin
 }
 
+# Function to install prerequisites
+install_prerequisites() {
+  log "${GREEN}Installing prerequisites...${NC}"
+  if ! command -v lsb_release &> /dev/null; then
+    apt-get install lsb-release -y
+  fi
+  if ! command -v curl &> /dev/null; then
+    apt-get install curl -y
+  fi
+  if ! command -v apt-transport-https &> /dev/null; then
+    apt-get install apt-transport-https -y
+  fi
+  if ! command -v zip &> /dev/null; then
+    apt-get install zip -y
+  fi
+  if ! command -v unzip &> /dev/null; then
+    apt-get install unzip -y
+  fi
+  if ! command -v gpg &> /dev/null; then
+    apt-get install gnupg -y
+  fi
+}
+
 # Function to check if lolcat is installed and install it if not
 check_and_install_lolcat() {
   if ! command -v lolcat &> /dev/null; then
@@ -99,6 +122,9 @@ NC='\033[0m' # No Color
 
 # Welcome message and description
 echo -e "${GREEN}Welcome to the SIEM, HIDS, and NIDS Setup Script${NC}"
+
+# Install prerequisites
+install_prerequisites
 
 # Ask for user confirmation to continue
 read -p "Do you want to proceed with the setup? (y/n): " choice
