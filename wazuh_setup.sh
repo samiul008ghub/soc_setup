@@ -62,8 +62,8 @@ integrate_wazuh() {
   # Update package information
   apt-get update
 
-  # Install the Wazuh manager package
-  apt-get install wazuh-manager -y
+  # Install Wazuh manager (specific version)
+  apt-get install wazuh-manager=4.5.4-1 -y
 
   # Enable and start the Wazuh manager service
   systemctl daemon-reload
@@ -80,36 +80,15 @@ integrate_wazuh() {
     echo "Wazuh manager is not running."
   fi
 
+  # Install Filebeat (specific version)
+  apt-get install filebeat=7.17.13 -y
+
   # Configure Filebeat for Wazuh
-  cat <<EOF >> /etc/filebeat/filebeat.yml
-filebeat.modules:
-  - module: wazuh
-    alerts:
-      enabled: true
-    archives:
-      enabled: false
-
-setup.template.json.enabled: true
-setup.template.json.path: /etc/filebeat/wazuh-template.json
-setup.template.json.name: wazuh
-setup.template.overwrite: true
-setup.ilm.enabled: false
-
-logging.metrics.enabled: false
-
-seccomp:
-  default_action: allow
-  syscalls:
-  - action: allow
-    names:
-    - rseq
-EOF
-
-  # Download the alerts template for Elasticsearch
-  curl -so /etc/filebeat/wazuh-template.json https://raw.githubusercontent.com/wazuh/wazuh/4.5/extensions/elasticsearch/7.x/wazuh-template.json
+  curl -so /etc/filebeat/filebeat.yml https://packages.wazuh.com/4.5/tpl/elastic-basic/filebeat.yml
+  curl -so /etc/filebeat/wazuh-template.json https://raw.githubusercontent.com/wazuh/wazuh/v4.5.4/extensions/elasticsearch/7.x/wazuh-template.json
   chmod go+r /etc/filebeat/wazuh-template.json
 
-  # Download the Wazuh module for Filebeat
+  # Download and extract Wazuh Filebeat module
   curl -s https://packages.wazuh.com/4.x/filebeat/wazuh-filebeat-0.2.tar.gz | tar -xvz -C /usr/share/filebeat/module
 
   # Restart the Filebeat service
