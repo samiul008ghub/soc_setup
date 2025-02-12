@@ -62,7 +62,7 @@ integrate_wazuh() {
   # Update package information
   apt-get update
 
-  # Install Wazuh manager (specific version)
+  # Install the specific version of the Wazuh manager package (4.5.4-1)
   apt-get install wazuh-manager=4.5.4-1 -y
 
   # Enable and start the Wazuh manager service
@@ -80,15 +80,39 @@ integrate_wazuh() {
     echo "Wazuh manager is not running."
   fi
 
-  # Install Filebeat (specific version)
-  apt-get install filebeat=7.17.13 -y
-
   # Configure Filebeat for Wazuh
-  curl -so /etc/filebeat/filebeat.yml https://packages.wazuh.com/4.5/tpl/elastic-basic/filebeat.yml
-  curl -so /etc/filebeat/wazuh-template.json https://raw.githubusercontent.com/wazuh/wazuh/v4.5.4/extensions/elasticsearch/7.x/wazuh-template.json
+  cat <<EOF >> /etc/filebeat/filebeat.yml
+filebeat.modules:
+  - module: wazuh
+    alerts:
+      enabled: true
+    archives:
+      enabled: false
+
+setup.template.json.enabled: true
+setup.template.json.path: /etc/filebeat/wazuh-template.json
+setup.template.json.name: wazuh
+setup.template.overwrite: true
+setup.ilm.enabled: false
+
+logging.metrics.enabled: false
+
+seccomp:
+  default_action: allow
+  syscalls:
+  - action: allow
+    names:
+    - rseq
+EOF
+
+  # Update the Filebeat config with Elasticsearch credentials from existing yml file
+  update_filebeat_config
+
+  # Download the alerts template for Elasticsearch
+  curl -so /etc/filebeat/wazuh-template.json https://raw.githubusercontent.com/wazuh/wazuh/4.5/extensions/elasticsearch/7.x/wazuh-template.json
   chmod go+r /etc/filebeat/wazuh-template.json
 
-  # Download and extract Wazuh Filebeat module
+  # Download the Wazuh module for Filebeat
   curl -s https://packages.wazuh.com/4.x/filebeat/wazuh-filebeat-0.2.tar.gz | tar -xvz -C /usr/share/filebeat/module
 
   # Restart the Filebeat service
@@ -108,6 +132,19 @@ integrate_wazuh() {
   systemctl restart kibana
 
   echo "Wazuh HIDS integration completed successfully."
+}
+
+# Function to update Elasticsearch IP and password in Filebeat config from existing yml file
+update_filebeat_config() {
+  # Extract the Elasticsearch IP and password from the filebeat.yml or kibana.yml file
+  elasticsearch_ip=$(grep -E '^ *elasticsearch.hosts:.*' /etc/filebeat/filebeat.yml | awk -F '[:"]+' '{print $2}')
+  elasticsearch_password=$(grep -E '^ *elasticsearch.password:.*' /etc/filebeat/filebeat.yml | awk -F '[:"]+' '{print $2}')
+  
+  # Replace the placeholder with actual Elasticsearch IP and password
+  sed -i "s|<elasticsearch_ip>|$elasticsearch_ip|g" /etc/filebeat/filebeat.yml
+  sed -i "s|<elasticsearch_password>|$elasticsearch_password|g" /etc/filebeat/filebeat.yml
+
+  echo "Filebeat configuration updated with Elasticsearch details."
 }
 
 # Function to remove existing Wazuh Kibana plugin
